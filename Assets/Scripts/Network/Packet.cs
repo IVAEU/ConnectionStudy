@@ -9,7 +9,8 @@ public enum PacketType
 {
     Welcome = 1,
     Default,
-    ColorChange
+    ColorChange,
+    MovePosition
 }
 
 public class Packet
@@ -98,6 +99,12 @@ public class Packet
         _buffer.AddRange(Encoding.UTF8.GetBytes(value)); 
     }
     
+    public void Write(Vector2 value)
+    {
+        Write(value.x);
+        Write(value.y);
+    }
+    
     public void Write(Vector3 value)
     {
         Write(value.x);
@@ -164,6 +171,11 @@ public class Packet
         {
             throw new Exception("Could not read value of type 'string'!");
         }
+    }
+    
+    public Vector2 ReadVector2()
+    {
+        return new Vector2(ReadFloat(), ReadFloat());
     }
     
     public Vector3 ReadVector3()

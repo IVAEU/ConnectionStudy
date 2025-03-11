@@ -12,10 +12,6 @@ public class ManageUI : MonoBehaviour
     public Server server;
     public Client client;
     
-    public Button redBtn;
-    public Button grnBtn;
-    public Button bluBtn;
-
     private void Start()
     {
         serverBtn.onClick.AddListener(server.CreateServer);
@@ -25,29 +21,5 @@ public class ManageUI : MonoBehaviour
             int port = portText.text == "" ? 7777 : int.Parse(portText.text);
             client.Connect(ip, port);
         });
-        
-        redBtn.onClick.AddListener(() =>
-        {
-            SendColor(Color.red);
-        });
-        grnBtn.onClick.AddListener(() =>
-        {
-            SendColor(Color.green);
-        });
-        bluBtn.onClick.AddListener(() =>
-        {
-            SendColor(Color.blue);
-        });
-    }
-
-    private void SendColor(Color c)
-    {
-        Packet p = new Packet();
-        p.Write((int)PacketType.ColorChange);
-        p.Write(c.r);
-        p.Write(c.g);
-        p.Write(c.b);
-        p.Insert(p.Length());
-        client.SendMessageToServer(p.ToArray());
     }
 }
